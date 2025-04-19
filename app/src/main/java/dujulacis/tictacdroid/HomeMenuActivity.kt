@@ -24,9 +24,30 @@ class HomeMenuActivity : AppCompatActivity() {
                 .setTitle("Choose Game Mode")
                 .setItems(options) { _, which ->
                     val isComputer = (which == 1)
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("isComputer", isComputer)
-                    startActivity(intent)
+
+                    // If computer mode chosen, let player choose their name (defaults to Player)
+                    if (isComputer) {
+                        val editText = android.widget.EditText(this)
+                        editText.hint = "Enter your name"
+
+                        AlertDialog.Builder(this)
+                            .setTitle("Enter Player Name")
+                            .setView(editText)
+                            .setPositiveButton("Start Game") { _, _ ->
+                                val playerName = editText.text.toString().ifBlank { "Player" }
+                                val intent = Intent(this, MainActivity::class.java)
+                                intent.putExtra("isComputer", true)
+                                intent.putExtra("playerName", playerName)
+                                startActivity(intent)
+                            }
+                            .setNegativeButton("Cancel", null)
+                            .show()
+
+                    } else {
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra("isComputer", false)
+                        startActivity(intent)
+                    }
                 }
                 .show()
         }

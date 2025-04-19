@@ -16,7 +16,10 @@ class MainActivity : AppCompatActivity() {
     // Set default computer mode as false
     private var isComputerMode = false
 
-    // Will prevent from player moving, when computer is
+    // Initialize default player name
+    private var playerName: String = "Player"
+
+    // Will prevent player from moving, when computer is
     private var isCPUMoving = false
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         isComputerMode = intent.getBooleanExtra("isComputer", false)
+        playerName = intent.getStringExtra("playerName") ?: "Player"
+
         initBoard()
         setTurnLabel()
     }
@@ -97,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Currently computer chooses randomly, wherever there is empty buttons. Simulated delay applied.
+    // Currently "computer" chooses randomly, wherever there is empty buttons. Simulated delay applied.
     private fun computerMove() {
 
         val emptyButtons = boardList.filter { it.text == "" }
@@ -171,7 +176,7 @@ class MainActivity : AppCompatActivity() {
     {
         var message = "\nCrosses $crossesScore\n\nCircles $circlesScore"
         if (isComputerMode)
-            message = "\nPlayer $crossesScore\n\nCPU $circlesScore"
+            message = "\n$playerName $crossesScore\n\nCPU $circlesScore"
         AlertDialog.Builder(this)
             .setTitle(title)
             .setMessage(message)
@@ -253,7 +258,7 @@ class MainActivity : AppCompatActivity() {
                 turnText = "Turn $CIRCLE"
         else if(currentTurn == Turn.CROSS)
             if (isComputerMode)
-                turnText = "Turn Player ($CROSS)"
+                turnText = "Turn $playerName ($CROSS)"
             else
                 turnText = "Turn $CROSS"
         binding.turnTV.text = turnText
