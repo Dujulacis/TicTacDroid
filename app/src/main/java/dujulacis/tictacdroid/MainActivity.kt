@@ -9,6 +9,8 @@ import dujulacis.tictacdroid.databinding.ActivityMainBinding
 
 // TODO: Choose starting symbol at the beginning. Implement better CPU logic.
 
+// Code modified: https://www.youtube.com/watch?v=POFvcoRo3Vw
+
 class MainActivity : AppCompatActivity() {
 
     // INIT //
